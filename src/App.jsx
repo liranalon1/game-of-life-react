@@ -1,0 +1,20 @@
+import './styles/App.scss';
+import { GameProvider } from './context/GameContext';
+import Board from './components/Board/Board';
+import Controls from './components/Controls/Controls';
+import SizeSlider from './components/SizeSlider/SizeSlider';
+
+const App = () => {
+  return (
+    <GameProvider>
+      <div className='App'>
+        <h1>Game of Life</h1>
+        <Controls />
+        <SizeSlider />
+        <Board />
+      </div>
+    </GameProvider>
+  );
+};
+
+export default App;
