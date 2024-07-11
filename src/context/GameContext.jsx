@@ -4,16 +4,9 @@ export const GameContext = createContext();
 
 export const GameProvider = ({ children }) => {
   const [board, setBoard] = useState([]);
-  const [boardSize, setBoardSize] = useState(10);
+  const [boardSize, setBoardSize] = useState(20 || boardSize);
 
-  const initializeBoard = () => {
-    const newBoard = Array(boardSize)
-      .fill()
-      .map(() => Array(boardSize).fill(false));
-    setBoard(newBoard);
-  };
-
-  const randomizeBoard = () => {
+  const initBoard = () => {
     const newBoard = Array(boardSize)
       .fill()
       .map(() =>
@@ -22,7 +15,7 @@ export const GameProvider = ({ children }) => {
     setBoard(newBoard);
   };
 
-  const evolveBoard = () => {
+  const nextGen = () => {
     const newBoard = board.map(arr => [...arr]);
     const directions = [
       [1, 0], [1, 1], [0, 1], [-1, 1],
@@ -54,26 +47,26 @@ export const GameProvider = ({ children }) => {
     setBoard(newBoard);
   };
 
-  const saveGameState = () => {
+  const saveGen = () => {
     const gameState = { board, boardSize };
     localStorage.setItem('gameState', JSON.stringify(gameState));
   };
 
-  const loadGameState = () => {
+  const loadGen = () => {
     const savedState = localStorage.getItem('gameState');
     if (savedState) {
       const { board, boardSize } = JSON.parse(savedState);
       setBoard(board);
-      setSize(boardSize);
+      setBoardSize(boardSize);
     }
   };
 
   useEffect(() => {
-    initializeBoard();
+    initBoard();
   }, [boardSize]);
 
   return (
-    <GameContext.Provider value={{ board, boardSize, setBoardSize, initializeBoard, randomizeBoard, evolveBoard, saveGameState, loadGameState }}>
+    <GameContext.Provider value={{ board, boardSize, setBoardSize, initBoard, nextGen, saveGen, loadGen }}>
       {children}
     </GameContext.Provider>
   );
