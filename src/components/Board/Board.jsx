@@ -13,7 +13,7 @@ const Board = () => {
   };
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: `repeat(${board.length}, 30px)` }}>
+    <div className={'board grid'} style={{ gridTemplateColumns: `repeat(${board.length}, 30px)` }}>
       {board.map((row, x) => 
         row.map((isAlive, y) => 
           <Cell key={`${x}-${y}`} isAlive={isAlive} toggleCell={() => toggleCell(x, y)} />

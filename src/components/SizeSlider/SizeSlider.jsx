@@ -3,17 +3,17 @@ import { useContext } from 'react';
 import { GameContext } from '../../context/GameContext';
 
 const SizeSlider = () => {
-  const { size, setSize } = useContext(GameContext);
+  const { boardSize, setBoardSize } = useContext(GameContext);
 
   const handleChange = (e) => {
-    setSize(parseInt(e.target.value));
+    setBoardSize(parseInt(e.target.value));
   };
 
   return (
     <div className='board-size-range flex'>
       Board Size:
-      <input type="range" min="5" max="20" value={size} onChange={handleChange} />
-      <span>{size}</span>
+      <input type="range" min="5" max="20" value={boardSize} onChange={handleChange} />
+      <span>{boardSize}</span>
     </div>
   );
 };

@@ -4,20 +4,20 @@ export const GameContext = createContext();
 
 export const GameProvider = ({ children }) => {
   const [board, setBoard] = useState([]);
-  const [size, setSize] = useState(10);
+  const [boardSize, setBoardSize] = useState(10);
 
   const initializeBoard = () => {
-    const newBoard = Array(size)
+    const newBoard = Array(boardSize)
       .fill()
-      .map(() => Array(size).fill(false));
+      .map(() => Array(boardSize).fill(false));
     setBoard(newBoard);
   };
 
   const randomizeBoard = () => {
-    const newBoard = Array(size)
+    const newBoard = Array(boardSize)
       .fill()
       .map(() =>
-        Array(size).fill().map(() => Math.random() > 0.7)
+        Array(boardSize).fill().map(() => Math.random() > 0.7)
       );
     setBoard(newBoard);
   };
@@ -35,8 +35,8 @@ export const GameProvider = ({ children }) => {
       return directions.reduce((acc, [dx, dy]) => acc + !!isAlive(x + dx, y + dy), 0);
     };
 
-    for (let i = 0; i < size; i++) {
-      for (let j = 0; j < size; j++) {
+    for (let i = 0; i < boardSize; i++) {
+      for (let j = 0; j < boardSize; j++) {
         const aliveNeighbors = countAliveNeighbors(i, j);
 
         if (board[i][j]) {
@@ -55,25 +55,25 @@ export const GameProvider = ({ children }) => {
   };
 
   const saveGameState = () => {
-    const gameState = { board, size };
+    const gameState = { board, boardSize };
     localStorage.setItem('gameState', JSON.stringify(gameState));
   };
 
   const loadGameState = () => {
     const savedState = localStorage.getItem('gameState');
     if (savedState) {
-      const { board, size } = JSON.parse(savedState);
+      const { board, boardSize } = JSON.parse(savedState);
       setBoard(board);
-      setSize(size);
+      setSize(boardSize);
     }
   };
 
   useEffect(() => {
     initializeBoard();
-  }, [size]);
+  }, [boardSize]);
 
   return (
-    <GameContext.Provider value={{ board, size, setSize, initializeBoard, randomizeBoard, evolveBoard, saveGameState, loadGameState }}>
+    <GameContext.Provider value={{ board, boardSize, setBoardSize, initializeBoard, randomizeBoard, evolveBoard, saveGameState, loadGameState }}>
       {children}
     </GameContext.Provider>
   );
