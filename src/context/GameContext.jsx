@@ -25,7 +25,15 @@ export const GameProvider = ({ children }) => {
     const isAlive = (x, y) => board[x] && board[x][y];
 
     const countAliveNeighbors = (x, y) => {
-      return directions.reduce((acc, [dx, dy]) => acc + !!isAlive(x + dx, y + dy), 0);
+      let aliveCount = 0;
+      directions.forEach(([dx, dy]) => {
+        const neighborX = x + dx;
+        const neighborY = y + dy;
+        if (isAlive(neighborX, neighborY)) {
+          aliveCount++;
+        }
+      });
+      return aliveCount;
     };
 
     for (let i = 0; i < boardSize; i++) {
