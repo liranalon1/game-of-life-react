@@ -1,8 +1,8 @@
 import './Cell.scss';
 
-const Cell = ({ isAlive, toggleCell }) => {
+const Cell = ({ isAlive, cellSize }) => {
   return (
-    <div className={`cell ${isAlive ? 'black' : 'white'}`} onClick={toggleCell} />
+    <div className={`cell ${isAlive ? 'black' : 'white'}`} style={{ width: cellSize, height: cellSize }} />
   );
 };
 

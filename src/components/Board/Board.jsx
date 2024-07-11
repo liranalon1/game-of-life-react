@@ -4,19 +4,14 @@ import { GameContext } from '../../context/GameContext';
 import Cell from '../Cell/Cell';
 
 const Board = () => {
-  const { board, setBoard } = useContext(GameContext);
-
-  const toggleCell = (x, y) => {
-    const newBoard = board.map(arr => [...arr]);
-    newBoard[x][y] = !newBoard[x][y];
-    setBoard(newBoard);
-  };
+  const cellSize = '30px';
+  const { board } = useContext(GameContext);
 
   return (
-    <div className={'board grid'} style={{ gridTemplateColumns: `repeat(${board.length}, 30px)` }}>
-      {board.map((row, x) => 
-        row.map((isAlive, y) => 
-          <Cell key={`${x}-${y}`} isAlive={isAlive} toggleCell={() => toggleCell(x, y)} />
+    <div className='board grid' style={{ gridTemplateColumns: `repeat(${board.length}, ${cellSize})` }}>
+      {board.map((row, i) => 
+        row.map((isAlive, k) => 
+          <Cell key={`${i}-${k}`} isAlive={isAlive} cellSize={cellSize} />
         )
       )}
     </div>
