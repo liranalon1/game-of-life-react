@@ -1,5 +1,10 @@
-input[type="range"] {
-    height: 7px;
-    appearance: auto;
-    margin: 2px;
+.board-size-range {
+    align-items: center;
+    gap: 5px;
+    
+    input[type="range"] {
+        height: 7px;
+        appearance: auto;
+        margin: 2px;
+    }
 }

@@ -10,7 +10,8 @@ const SizeSlider = () => {
   };
 
   return (
-    <div>
+    <div className='board-size-range flex'>
+      Board Size:
       <input type="range" min="5" max="20" value={size} onChange={handleChange} />
       <span>{size}</span>
     </div>
