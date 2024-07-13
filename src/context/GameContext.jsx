@@ -15,66 +15,20 @@ export const GameProvider = ({ children }) => {
     setBoard(newBoard);
   };
 
-  const nextGen = () => {
-    const newBoard = board.map(arr => [...arr]);
-    const directions = [
-      [1, 0], [1, 1], [0, 1], [-1, 1],
-      [-1, 0], [-1, -1], [0, -1], [1, -1]
-    ];
-
-    const isAlive = (x, y) => board[x] && board[x][y];
-
-    const countAliveNeighbors = (x, y) => {
-      let aliveCount = 0;
-      directions.forEach(([dx, dy]) => {
-        const neighborX = x + dx;
-        const neighborY = y + dy;
-        if (isAlive(neighborX, neighborY)) {
-          aliveCount++;
-        }
-      });
-      return aliveCount;
-    };
-
-    for (let i = 0; i < boardSize; i++) {
-      for (let j = 0; j < boardSize; j++) {
-        const aliveNeighbors = countAliveNeighbors(i, j);
-
-        if (board[i][j]) {
-          if (aliveNeighbors < 2 || aliveNeighbors > 3) {
-            newBoard[i][j] = false;
-          }
-        } else {
-          if (aliveNeighbors === 3) {
-            newBoard[i][j] = true;
-          }
-        }
-      }
-    }
-
-    setBoard(newBoard);
-  };
-
-  const saveGen = () => {
-    const gameState = { board, boardSize };
-    localStorage.setItem('gameState', JSON.stringify(gameState));
-  };
-
-  const loadGen = () => {
-    const savedState = localStorage.getItem('gameState');
-    if (savedState) {
-      const { board, boardSize } = JSON.parse(savedState);
-      setBoard(board);
-      setBoardSize(boardSize);
-    }
-  };
-
   useEffect(() => {
     initBoard();
   }, [boardSize]);
 
   return (
-    <GameContext.Provider value={{ board, boardSize, setBoardSize, initBoard, nextGen, saveGen, loadGen }}>
+    <GameContext.Provider value={
+      { 
+        board, 
+        boardSize, 
+        setBoard,
+        setBoardSize, 
+        initBoard,
+      }
+    }>
       {children}
     </GameContext.Provider>
   );
