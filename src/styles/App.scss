@@ -5,6 +5,19 @@
   gap: 20px;
   padding: 20px;
   min-height: 100vh;
+
+  h1 {
+    font-size: 40px;
+    line-height: 1.1;
+    font-weight: 600;
+    margin-top:20px
+  }
+  
+  .controls-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
 }
 
 body {
@@ -15,11 +28,4 @@ body {
   background-color: #fafafa;
   color: #000;
   font-family: Arial; 
-}
-
-h1 {
-  font-size: 40px;
-  line-height: 1.1;
-  font-weight: 600;
-  margin-top:20px
 }

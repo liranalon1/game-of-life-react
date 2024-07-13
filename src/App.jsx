@@ -9,8 +9,10 @@ const App = () => {
     <GameProvider>
       <div className='App'>
         <h1>Conway's Game of Life</h1>
-        <Controls />
-        <SizeSlider />
+        <div className="controls-container flex">
+          <Controls />
+          <SizeSlider />
+        </div>
         <Board />
       </div>
     </GameProvider>

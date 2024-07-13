@@ -1,28 +1,18 @@
 import './Controls.scss';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useCallback } from 'react';
 import { GameContext } from '../../context/GameContext';
 import Button from './Button/Button';
 
 const Controls = () => {
-  const buttons = [
-    { text: 'Init Board', onClick: initBoard },
-    { text: 'Next Gen', onClick: nextGen },
-    { text: 'Save Gen', onClick: saveGen },
-    { text: 'Load Last Gen', onClick: loadGen }
-  ];
-
-  const [shouldInitBoard, setShouldInitBoard] = useState(true);
   const { board, boardSize, setBoard, setBoardSize } = useContext(GameContext);
+  const [shouldInitBoard, setShouldInitBoard] = useState(true);
 
-  function initBoard() {
-    const newBoard = Array(boardSize)
-      .fill()
-      .map(() => Array(boardSize).fill().map(() => Math.random() > 0.7));
-      
+  const initBoard = useCallback(() => {
+    const newBoard = Array(boardSize).fill().map(() => Array(boardSize).fill().map(() => Math.random() > 0.7));
     setBoard(newBoard);
-  };
+  }, [boardSize, setBoard]);
 
-  function nextGen() {
+  const nextGen = useCallback(() => {
     const newBoard = board.map(arr => [...arr]);
     const directions = [
       [1, 0], [1, 1], [0, 1], [-1, 1],
@@ -46,7 +36,7 @@ const Controls = () => {
     for (let i = 0; i < boardSize; i++) {
       for (let j = 0; j < boardSize; j++) {
         const aliveNeighbors = countAliveNeighbors(i, j);
-
+        
         if (board[i][j]) {
           if (aliveNeighbors < 2 || aliveNeighbors > 3) {
             newBoard[i][j] = false;
@@ -60,14 +50,14 @@ const Controls = () => {
     }
 
     setBoard(newBoard);
-  };
+  }, [board, boardSize, setBoard]);
 
-  function saveGen() {
+  const saveGen = useCallback(() => {
     const gameState = { board, boardSize };
     localStorage.setItem('gameState', JSON.stringify(gameState));
-  };
+  }, [board, boardSize]);
 
-  function loadGen() {
+  const loadGen = useCallback(() => {
     const savedState = localStorage.getItem('gameState');
     if (savedState) {
       const { board, boardSize } = JSON.parse(savedState);
@@ -75,7 +65,7 @@ const Controls = () => {
       setBoardSize(boardSize);
       setShouldInitBoard(false);
     }
-  };
+  }, [setBoard, setBoardSize]);
 
   useEffect(() => {
     if (shouldInitBoard) {
@@ -84,6 +74,13 @@ const Controls = () => {
       setShouldInitBoard(true);
     }
   }, [boardSize]);
+
+  const buttons = [
+    { text: 'Init Board', onClick: initBoard },
+    { text: 'Next Gen', onClick: nextGen },
+    { text: 'Save Gen', onClick: saveGen },
+    { text: 'Load Last Gen', onClick: loadGen }
+  ];
 
   return (
     <div className='controls flex'>

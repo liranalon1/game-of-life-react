@@ -5,14 +5,16 @@ import { GameContext } from '../../context/GameContext';
 const SizeSlider = () => {
   const { boardSize, setBoardSize } = useContext(GameContext);
 
-  function handleChange(e) {
+  const handleChange = (e) => {
     setBoardSize(parseInt(e.target.value));
   };
 
   return (
     <div className='board-size-range flex'>
-      Board Size:
-      <input type="range" min="5" max="20" value={boardSize} onChange={handleChange} />
+      <label>
+        Board Size:
+        <input type="range" min="5" max="20" value={boardSize} onChange={handleChange} />
+      </label>
       <span>{boardSize}</span>
     </div>
   );

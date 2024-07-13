@@ -2,7 +2,7 @@ import './Cell.scss';
 
 const Cell = ({ isAlive, cellSize }) => {
   return (
-    <div className={`cell ${isAlive ? 'black' : 'white'}`} style={{ width: cellSize, height: cellSize }} />
+    <div className={`cell ${isAlive ? 'alive' : 'dead'}`} style={{ width: cellSize, height: cellSize }} />
   );
 };
 

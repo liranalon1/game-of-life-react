@@ -9,9 +9,9 @@ const Board = () => {
 
   return (
     <div className='board grid' style={{ gridTemplateColumns: `repeat(${board.length}, ${cellSize})` }}>
-      {board.map((row, i) => 
-        row.map((isAlive, k) => 
-          <Cell key={`${i}-${k}`} isAlive={isAlive} cellSize={cellSize} />
+      {board.map((row, rowIndex) => 
+        row.map((isAlive, cellIndex) => 
+          <Cell key={`${rowIndex}-${cellIndex}`} isAlive={isAlive} cellSize={cellSize} />
         )
       )}
     </div>
