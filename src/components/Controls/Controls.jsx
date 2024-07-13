@@ -1,12 +1,28 @@
 import './Controls.scss';
-import { useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { GameContext } from '../../context/GameContext';
 import Button from './Button/Button';
 
 const Controls = () => {
-  const { initBoard, board, boardSize, setBoard, setBoardSize } = useContext(GameContext);
+  const buttons = [
+    { text: 'Init Board', onClick: initBoard },
+    { text: 'Next Gen', onClick: nextGen },
+    { text: 'Save Gen', onClick: saveGen },
+    { text: 'Load Last Gen', onClick: loadGen }
+  ];
 
-  const nextGen = () => {
+  const [shouldInitBoard, setShouldInitBoard] = useState(true);
+  const { board, boardSize, setBoard, setBoardSize } = useContext(GameContext);
+
+  function initBoard() {
+    const newBoard = Array(boardSize)
+      .fill()
+      .map(() => Array(boardSize).fill().map(() => Math.random() > 0.7));
+      
+    setBoard(newBoard);
+  };
+
+  function nextGen() {
     const newBoard = board.map(arr => [...arr]);
     const directions = [
       [1, 0], [1, 1], [0, 1], [-1, 1],
@@ -46,26 +62,28 @@ const Controls = () => {
     setBoard(newBoard);
   };
 
-  const saveGen = () => {
+  function saveGen() {
     const gameState = { board, boardSize };
     localStorage.setItem('gameState', JSON.stringify(gameState));
   };
 
-  const loadGen = () => {
+  function loadGen() {
     const savedState = localStorage.getItem('gameState');
     if (savedState) {
       const { board, boardSize } = JSON.parse(savedState);
       setBoard(board);
       setBoardSize(boardSize);
+      setShouldInitBoard(false);
     }
   };
 
-  const buttons = [
-    { text: 'Initialize', onClick: initBoard },
-    { text: 'Next Gen', onClick: nextGen },
-    { text: 'Save Gen', onClick: saveGen },
-    { text: 'Load Last Gen', onClick: loadGen }
-  ];
+  useEffect(() => {
+    if (shouldInitBoard) {
+      initBoard();
+    } else {
+      setShouldInitBoard(true);
+    }
+  }, [boardSize]);
 
   return (
     <div className='controls flex'>

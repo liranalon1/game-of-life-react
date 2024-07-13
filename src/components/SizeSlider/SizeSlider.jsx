@@ -5,7 +5,7 @@ import { GameContext } from '../../context/GameContext';
 const SizeSlider = () => {
   const { boardSize, setBoardSize } = useContext(GameContext);
 
-  const handleChange = (e) => {
+  function handleChange(e) {
     setBoardSize(parseInt(e.target.value));
   };
 
