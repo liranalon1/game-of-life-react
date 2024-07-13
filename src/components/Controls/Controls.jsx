@@ -1,6 +1,7 @@
 import './Controls.scss';
 import { useContext } from 'react';
 import { GameContext } from '../../context/GameContext';
+import Button from './Button/Button';
 
 const Controls = () => {
   const { initBoard, board, boardSize, setBoard, setBoardSize } = useContext(GameContext);
@@ -59,12 +60,18 @@ const Controls = () => {
     }
   };
 
+  const buttons = [
+    { text: 'Initialize', onClick: initBoard },
+    { text: 'Next Gen', onClick: nextGen },
+    { text: 'Save Gen', onClick: saveGen },
+    { text: 'Load Last Gen', onClick: loadGen }
+  ];
+
   return (
     <div className='controls flex'>
-      <button className='btn' onClick={initBoard}>Initialize</button>
-      <button className='btn' onClick={nextGen}>Next Gen</button>
-      <button className='btn' onClick={saveGen}>Save Gen</button>
-      <button className='btn' onClick={loadGen}>Load Last Gen</button>
+      {buttons.map((button, index) => (
+        <Button key={index} text={button.text} onClick={button.onClick} />
+      ))}
     </div>
   );
 };
