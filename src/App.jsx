@@ -8,7 +8,7 @@ const App = () => {
   return (
     <GameProvider>
       <div className='App'>
-        <h1>Game of Life</h1>
+        <h1>Conway's Game of Life</h1>
         <Controls />
         <SizeSlider />
         <Board />
